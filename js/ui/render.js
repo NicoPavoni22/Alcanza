@@ -13,6 +13,7 @@ import { tweenPesos } from "./tween.js";
 import { showToast } from "./toast.js";
 import { confirmModal } from "./modal.js";
 import { compartir } from "./share.js";
+import { linkFeedback } from "./feedback.js";
 
 let savingsPage = 1;
 
@@ -33,6 +34,9 @@ export function renderHero() {
   hero.className = "tag";
   // El botón "Compré acá" solo aparece hoy: uno registra la compra que hace hoy.
   const btn = S.selectedDay === HOY ? `<button class="tag-btn" id="logBtn">✓ Compré acá · sumar ${fmt(g.pesos)}</button>` : "";
+  // Reporte atado al veredicto: la promo que "te informamos".
+  const ctxHero = `${g.cadena} · ${g.medioPago} · ${DIAS[S.selectedDay]} · ${g.porcentaje}%`;
+  const repHero = linkFeedback(ctxHero);
   hero.innerHTML = `
     <div class="tag-day">${label}</div>
     <div class="tag-chain">${g.cadena}</div>
@@ -47,7 +51,8 @@ export function renderHero() {
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
         Compartir
       </button>
-    </div>`;
+    </div>
+    ${repHero ? `<a class="hero-report report-link" href="${repHero}" target="_blank" rel="noopener">¿No ahorraste esto? Reportá la promo</a>` : ""}`;
   tweenPesos(document.getElementById("heroSave"), g.pesos);
   const lb = document.getElementById("logBtn");
   if (lb) lb.onclick = () => registrarCompra(g);
@@ -128,12 +133,17 @@ export function renderDetail() {
     const flags = [];
     if (p.bajoMinimo) flags.push({ type: "warn", text: `compra mínima ${fmt(p.minimo)}` });
     if (p.topeAlcanzado) flags.push({ type: "info", text: `llega al tope de ${fmt(p.tope)} (${p.topePeriodo})` });
+    // Reporte con la promo precargada: "Cadena · Medio · Día · %"
+    const contexto = `${p.cadena} · ${p.medioPago} · ${DIAS[S.selectedDay]} · ${p.porcentaje}%`;
+    const rep = linkFeedback(contexto);
+    const repLink = rep ? `<a class="report-link" href="${rep}" target="_blank" rel="noopener">¿No ahorraste esto? Reportá la promo</a>` : "";
     return `<div class="row${i === 0 && !p.bajoMinimo ? " best" : ""}">
       <div class="chain">${p.cadena}</div>
       <div class="method">${p.medioPago}${p.nota ? ` · ${p.nota}` : ''} · ${p.porcentaje}% nominal</div>
       ${flags.length ? `<div class="flags">${flags.map(f => `<span class="flag flag-${f.type}">${f.text}</span>`).join("")}</div>` : ""}
       <div class="save-amt" style="color:${p.bajoMinimo ? 'var(--muted)' : 'var(--ink)'}">${p.bajoMinimo ? "—" : fmt(p.pesos)}</div>
       <div class="save-sub">${p.bajoMinimo ? "N/A" : Math.round(p.efectivo) + "% real"}</div>
+      ${repLink}
     </div>`;
   }).join("");
 }

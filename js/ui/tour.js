@@ -42,6 +42,10 @@ function tourPlace(target, onReady) {
   const margin = 14;
   if (!target) {
     tourSpotlight.style.display = "none";
+    // Limpio la posición inline de pasos anteriores para que el CSS .center
+    // (left/top 50%) no quede pisado y el globo realmente se centre.
+    tourTip.style.top = "";
+    tourTip.style.left = "";
     tourTip.classList.add("center");
     tourReposition = null;
     onReady();

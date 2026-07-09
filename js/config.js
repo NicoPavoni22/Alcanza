@@ -24,6 +24,17 @@ export const reduce = window.matchMedia("(prefers-reduced-motion:reduce)").match
 // Cuántas compras se muestran por página en la sección de ahorro.
 export const SAVINGS_PAGE_SIZE = 6;
 
+// Formulario de feedback (Google Forms). Cómo obtener estos dos valores:
+//  1) Creá el formulario con un campo de respuesta corta "¿Sobre qué promo?".
+//  2) Menú (⋮) > "Obtener vínculo prellenado", escribí cualquier cosa en ese
+//     campo y copiá el link generado.
+//  3) La parte antes del "?" es "base"; el "entry.XXXX" del campo es "entryPromo".
+// Mientras diga FORM_ID, el botón de reportar no aparece (queda desactivado).
+export const FEEDBACK_FORM = {
+  base:       "https://docs.google.com/forms/d/e/1FAIpQLSctPMgSHo-qb2VZi2Nzxp1PfVIGtUsrZ_SyuuTCmKfRgZcHHA/viewform",
+  entryPromo: "entry.1100962196"
+};
+
 // Medios de pago que el usuario puede elegir aunque hoy no tengan promo.
 // Nivel banco/billetera. "nombre" debe coincidir EXACTO con medio_pago de las promos.
 // "visible": ponelo en false para ocultar el medio de los chips sin borrarlo,
@@ -35,11 +46,11 @@ export const MEDIOS_MASTER = [
   { nombre: "MODO",         visible: true },
   { nombre: "Galicia",      visible: true },
   { nombre: "Santander",    visible: true },
-  { nombre: "Macro",        visible: false },
+  { nombre: "Macro",        visible: true },
   { nombre: "Nación",       visible: true },
-  { nombre: "Patagonia",    visible: false },
-  { nombre: "Supervielle",  visible: false },
-  { nombre: "Naranja X",    visible: false },
-  { nombre: "Columbia",     visible: false },
-  { nombre: "Hipotecario",  visible: false }
+  { nombre: "Patagonia",    visible: true },
+  { nombre: "Supervielle",  visible: true },
+  { nombre: "Naranja X",    visible: true },
+  { nombre: "Columbia",     visible: true },
+  { nombre: "Hipotecario",  visible: true }
 ];

@@ -249,3 +249,25 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
 .tag-share:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.6)}
 .tag-share:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .tag-share svg{opacity:.92}
+
+/* Link de reporte por promo (feedback vía Google Form) */
+.report-link{
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 6px;
+  font-size: .78rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: .85;
+}
+.report-link:hover{ opacity: 1; color: var(--ink); }
+
+/* Variante dentro de la tarjeta del veredicto (fondo oscuro) */
+.hero-report{
+  display: inline-block;
+  margin-top: 12px;
+  color: rgba(255,255,255,.72);
+  opacity: 1;
+}
+.hero-report:hover{ color: #fff; }
