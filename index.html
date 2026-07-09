@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alcanza — el mejor precio del súper, hoy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#14173A">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Alcanza">
+<script>
+/* Aplica el tema guardado ANTES de pintar, para evitar el flash de tema claro.
+   Se deja inline a propósito: tiene que correr antes de que se pinte la página. */
+(function(){
+  try{
+    var raw = localStorage.getItem("alcanza.theme.v1");
+    var t = raw ? JSON.parse(raw) : null;
+    if(t !== "dark" && t !== "light") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  }catch(e){}
+})();
+</script>
+</head>
+<body>
+
+  <div class="masthead gutter">
+    <div class="topbar">
+      <div class="brand">
+        <!-- LOGO: monograma "A" de Alcanza -->
+        <svg width="36" height="36" viewBox="0 0 48 48" aria-label="Alcanza" role="img">
+          <rect x="1" y="1" width="46" height="46" rx="13" fill="#14173A"/>
+          <path d="M24 13 L15 35 M24 13 L33 35 M18.6 29 L29.4 29" fill="none" stroke="#34D399" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="word">Alcanza</span>
+      </div>
+      <div class="topbar-right">
+        <div class="loc" id="loc">La Plata</div>
+        <button class="theme-toggle" id="themeBtn" type="button" aria-label="Cambiar de tema"></button>
+        <button class="tour-trigger" id="tourBtn" type="button" aria-label="Ver cómo funciona Alcanza">?</button>
+      </div>
+    </div>
+
+    <h1 class="headline">El <em>mejor precio</em> del súper, hoy.</h1>
+    <p class="sub">Elegí las tarjetas que tenés y mirá dónde y qué día conviene comprar.</p>
+    <div class="stamp" id="stamp"></div>
+  </div>
+
+  <main class="wrap gutter">
+
+    <div class="tag" id="hero"></div>
+    <div class="advice" id="advice"></div>
+
+    <div class="controls">
+      <div class="field">
+        <p class="eyebrow">Tus medios de pago</p>
+        <div class="chips" id="methods"></div>
+      </div>
+      <div class="field" style="flex:0 0 auto">
+        <p class="eyebrow">Compra estimada</p>
+        <div class="amount-field">
+          <span>$</span>
+          <input id="amount" type="text" inputmode="numeric" value="80.000" aria-label="Compra estimada en pesos">
+        </div>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:34px">La semana</p>
+    <div class="week-scroll"><div class="week" id="week"></div></div>
+
+    <div class="ticket-head">
+      <h2 id="ticketTitle">Todas las opciones de hoy</h2>
+      <span id="ticketDay"></span>
+    </div>
+    <div class="ticket" id="detail"></div>
+
+    <section class="savings">
+      <p class="eyebrow">Tu ahorro</p>
+      <div class="savings-card" id="savingsBody"></div>
+    </section>
+
+    <p class="note">
+      El ahorro que ves ya tiene en cuenta el <b>tope</b> de cada promo, así que es lo que realmente
+      ahorrás, no el número teórico. Verificamos las promos para La&nbsp;Plata, pero los bancos y
+      supermercados pueden cambiar las condiciones sin aviso: antes de pagar, confirmá el descuento,
+      el tope y la compra mínima en la caja. Tus tarjetas y tu historial de ahorro se guardan solo en
+      este dispositivo.
+    </p>
+
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+
+  <!-- PWA: registra el service worker (solo en http/https; en file:// no aplica). -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function (e) { console.warn("SW no registrado:", e); });
+      });
+    }
+  </script>
+</body>
+</html>
