@@ -271,3 +271,30 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
   opacity: 1;
 }
 .hero-report:hover{ color: #fff; }
+
+/* Tooltips por tap (iconito "i" + globito) */
+.info-dot{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:15px; height:15px; margin-left:5px; padding:0;
+  vertical-align:middle; flex:none;
+  border:none; border-radius:50%;
+  background:var(--line); color:var(--muted);
+  font:italic 700 10px/1 Georgia, "Times New Roman", serif;
+  cursor:pointer; -webkit-tap-highlight-color:transparent;
+}
+.info-dot:hover{ background:var(--accent); color:#fff; }
+/* Dentro de la tarjeta del veredicto (fondo oscuro) */
+.tag-pct .info-dot, .tag-with .info-dot{ background:rgba(255,255,255,.22); color:#fff; }
+
+.info-pop{
+  position:fixed; z-index:10000;
+  max-width:260px; width:max-content;
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--line); border-radius:10px;
+  padding:10px 12px;
+  font-size:.8rem; line-height:1.35; font-weight:500;
+  box-shadow:0 14px 34px -14px rgba(10,11,26,.55);
+  opacity:0; transform:translateY(4px); pointer-events:none;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.info-pop.in{ opacity:1; transform:translateY(0); }

@@ -14,6 +14,7 @@ import { showToast } from "./toast.js";
 import { confirmModal } from "./modal.js";
 import { compartir } from "./share.js";
 import { linkFeedback } from "./feedback.js";
+import { infoBtn } from "./tooltip.js";
 
 let savingsPage = 1;
 
@@ -21,8 +22,9 @@ export function renderStamp() {
   const box = document.getElementById("stamp");
   const dias = Math.floor((Date.now() - new Date(S.ACTUALIZADO).getTime()) / 86400000);
   const fecha = new Date(S.ACTUALIZADO).toLocaleDateString("es-AR");
-  if (dias > DIAS_PARA_ALERTAR) { box.className = "stamp warn"; box.textContent = `Datos de hace ${dias} días — conviene verificar las promos`; }
-  else { box.className = "stamp"; box.textContent = `Promos verificadas el ${fecha} · La Plata`; }
+  const infoFrescura = infoBtn("Revisamos y cargamos las promos a mano para que sean confiables. Aun así, los bancos pueden cambiar las condiciones sin aviso: confirmá siempre en la caja.");
+  if (dias > DIAS_PARA_ALERTAR) { box.className = "stamp warn"; box.innerHTML = `Datos de hace ${dias} días — conviene verificar las promos` + infoFrescura; }
+  else { box.className = "stamp"; box.innerHTML = `Promos verificadas el ${fecha} · La Plata` + infoFrescura; }
 }
 
 export function renderHero() {
@@ -42,9 +44,9 @@ export function renderHero() {
     <div class="tag-chain">${g.cadena}</div>
     <div class="tag-figures">
       <div class="tag-save"><div class="k">Ahorrás</div><div class="v" id="heroSave">$0</div></div>
-      <div class="tag-pct">${Math.round(g.efectivo)}% real</div>
+      <div class="tag-pct">${Math.round(g.efectivo)}% real${infoBtn("El nominal es el % que anuncia el banco. El real es lo que te queda de verdad, ya restando el tope y según tu compra estimada.")}</div>
     </div>
-    <div class="tag-with">pagando con <b>${g.medioPago}</b>${g.nota ? ` · ${g.nota}` : ''}${g.topeAlcanzado ? ` · tope ${fmt(g.tope)} ${g.topePeriodo}` : ''}</div>
+    <div class="tag-with">pagando con <b>${g.medioPago}</b>${g.nota ? ` · ${g.nota}` : ''}${g.topeAlcanzado ? ` · tope ${fmt(g.tope)} ${g.topePeriodo}${infoBtn("Tope: el máximo que te reintegran. Cuando lo alcanzás, el descuento deja de sumar aunque compres más. Por eso el ahorro real puede ser menor al nominal.")}` : ''}</div>
     <div class="tag-actions">
       ${btn}
       <button class="tag-share" id="shareBtn" type="button" aria-label="Compartir esta promo">
@@ -136,7 +138,7 @@ export function renderDetail() {
     // Reporte con la promo precargada: "Cadena · Medio · Día · %"
     const contexto = `${p.cadena} · ${p.medioPago} · ${DIAS[S.selectedDay]} · ${p.porcentaje}%`;
     const rep = linkFeedback(contexto);
-    const repLink = rep ? `<a class="report-link" href="${rep}" target="_blank" rel="noopener">¿No ahorraste esto? Reportá la promo</a>` : "";
+    const repLink = rep ? `<a class="report-link" href="${rep}" target="_blank" rel="noopener">¿algo mal? reportar</a>` : "";
     return `<div class="row${i === 0 && !p.bajoMinimo ? " best" : ""}">
       <div class="chain">${p.cadena}</div>
       <div class="method">${p.medioPago}${p.nota ? ` · ${p.nota}` : ''} · ${p.porcentaje}% nominal</div>

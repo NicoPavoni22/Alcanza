@@ -9,7 +9,7 @@
 // caché viejo.
 // =======================================================================
 
-const VERSION = "alcanza-v2";
+const VERSION = "alcanza-v3";
 
 const SHELL = [
   "./",
@@ -31,6 +31,7 @@ const SHELL = [
   "./js/ui/modal.js",
   "./js/ui/share.js",
   "./js/ui/feedback.js",
+  "./js/ui/tooltip.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable.png"

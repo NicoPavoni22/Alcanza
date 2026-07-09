@@ -9,6 +9,7 @@ import { renderHero, renderAdvice, renderWeek, renderDetail } from "./ui/render.
 import { boot } from "./data.js";
 import { initTheme } from "./ui/theme.js";
 import { initTour } from "./ui/tour.js";
+import { initTooltips } from "./ui/tooltip.js";
 
 // Campo de compra estimada
 const amountInput = document.getElementById("amount");
@@ -21,5 +22,6 @@ amountInput.addEventListener("input", e => {
 });
 
 initTheme();
+initTooltips();
 initTour();
 boot();
