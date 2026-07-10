@@ -44,7 +44,9 @@ export const LINKS_CADENA = {
   "Día":       "https://diaonline.supermercadosdia.com.ar/medios-de-pago-y-promociones",
   "NINI":      "https://www.nini.com.ar/promociones",
   "ChangoMás": "https://www.masonline.com.ar/promociones-bancarias",
-  "Coto":      "https://www.coto.com.ar/descuentos"
+  "Coto":      "https://www.coto.com.ar/descuentos",
+  "Jumbo":     "https://www.jumbo.com.ar/descuentos-del-dia?type=por-banco",
+  "Vea":       "https://www.vea.com.ar/descuentos-del-dia?type=por-banco"
 };
 
 function _norm(s) {
