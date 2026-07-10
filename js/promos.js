@@ -54,6 +54,7 @@ export function mapRow(r) {
     desde: r.desde || null,
     hasta: r.hasta || null,
     actualizado: r.actualizado || null,
-    nota: r.nota || null
+    nota: r.nota || null,
+    condicion: r.condicion || null
   };
 }

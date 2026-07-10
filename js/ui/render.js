@@ -63,6 +63,7 @@ export function renderHero() {
       <div class="tag-pct">${Math.round(g.efectivo)}% real${infoBtn("El nominal es el % que anuncia el banco. El real es lo que te queda de verdad, ya restando el tope y según tu compra estimada.")}</div>
     </div>
     <div class="tag-with">pagando con <b>${g.medioPago}</b>${g.nota ? ` · ${g.nota}` : ''}${g.topeAlcanzado ? ` · tope ${fmt(g.tope)} ${g.topePeriodo}${infoBtn("Tope: el máximo que te reintegran. Cuando lo alcanzás, el descuento deja de sumar aunque compres más. Por eso el ahorro real puede ser menor al nominal.")}` : ''}</div>
+    ${g.condicion ? `<div class="cond-badge">⚠ ${g.condicion}</div>` : ""}
     <div class="tag-actions">
       ${btn}
       <button class="tag-share" id="shareBtn" type="button" aria-label="Compartir esta promo">
@@ -149,6 +150,7 @@ export function renderDetail() {
   if (list.length === 0) { box.innerHTML = `<div class="empty">No hay promos vigentes ese día para los medios que elegiste. Probá otro día o sumá una tarjeta.</div>`; return; }
   box.innerHTML = list.map((p, i) => {
     const flags = [];
+    if (p.condicion) flags.push({ type: "cond", text: p.condicion });
     if (p.bajoMinimo) flags.push({ type: "warn", text: `compra mínima ${fmt(p.minimo)}` });
     if (p.topeAlcanzado) flags.push({ type: "info", text: `llega al tope de ${fmt(p.tope)} (${p.topePeriodo})` });
     // Reporte con la promo precargada: "Cadena · Medio · Día · %"
