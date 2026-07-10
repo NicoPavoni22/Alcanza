@@ -6,7 +6,7 @@
 // =======================================================================
 
 import { S, persistSetup, persistCompras } from "../state.js";
-import { DIAS, DIAS3, HOY, HOY_ISO, DIAS_PARA_ALERTAR, reduce, SAVINGS_PAGE_SIZE } from "../config.js";
+import { DIAS, DIAS3, HOY, HOY_ISO, DIAS_PARA_ALERTAR, reduce, SAVINGS_PAGE_SIZE, LINKS_CADENA } from "../config.js";
 import { fmt, cap } from "../format.js";
 import { promosDelDia, ganadorDelDia, mejorDeLaSemana } from "../promos.js";
 import { tweenPesos } from "./tween.js";
@@ -25,6 +25,22 @@ export function renderStamp() {
   const infoFrescura = infoBtn("Revisamos y cargamos las promos a mano para que sean confiables. Aun así, los bancos pueden cambiar las condiciones sin aviso: confirmá siempre en la caja.");
   if (dias > DIAS_PARA_ALERTAR) { box.className = "stamp warn"; box.innerHTML = `Datos de hace ${dias} días — conviene verificar las promos` + infoFrescura; }
   else { box.className = "stamp"; box.innerHTML = `Promos verificadas el ${fecha} · La Plata` + infoFrescura; }
+}
+
+// Sección al pie: verificar las promos en las webs oficiales. Es estática
+// (sale de LINKS_CADENA), así que se pinta una sola vez al arrancar.
+export function renderVerify() {
+  const box = document.getElementById("verify");
+  if (!box) return;
+  const entries = Object.entries(LINKS_CADENA);
+  if (!entries.length) { box.innerHTML = ""; return; }
+  const chips = entries.map(([cadena, url]) =>
+    `<a class="verify-chip" href="${url}" target="_blank" rel="noopener">${cadena}<span class="verify-ext" aria-hidden="true">↗</span></a>`
+  ).join("");
+  box.innerHTML = `
+    <p class="eyebrow">Verificá en la fuente</p>
+    <p class="verify-text">Cargamos las promos a mano para que sean confiables. Si querés, comprobá cada descuento en la web oficial del súper.</p>
+    <div class="verify-chips">${chips}</div>`;
 }
 
 export function renderHero() {

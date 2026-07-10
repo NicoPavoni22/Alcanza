@@ -11,6 +11,7 @@
 <!-- PWA -->
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#14173A">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Alcanza">
 <script>
@@ -25,16 +26,13 @@
   }catch(e){}
 })();
 </script>
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
 
   <div class="masthead gutter">
     <div class="topbar">
       <div class="brand">
-        <!-- LOGO: monograma "A" de Alcanza -->
+        <!-- LOGO: monograma "A" de Alcanza, geométrico y confiado -->
         <svg width="36" height="36" viewBox="0 0 48 48" aria-label="Alcanza" role="img">
           <rect x="1" y="1" width="46" height="46" rx="13" fill="#14173A"/>
           <path d="M24 13 L15 35 M24 13 L33 35 M18.6 29 L29.4 29" fill="none" stroke="#34D399" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -48,8 +46,8 @@
       </div>
     </div>
 
-    <h1 class="headline">El <em>mejor precio</em> del súper, hoy.</h1>
-    <p class="sub">Elegí las tarjetas que tenés y mirá dónde y qué día conviene comprar.</p>
+    <h1 class="headline">El <em>mejor precio</em> del súper, hoy</h1>
+    <p class="sub">Elegí las tarjetas que ya tenés y mirá dónde y qué día conviene comprar.</p>
     <div class="stamp" id="stamp"></div>
   </div>
 
@@ -86,6 +84,8 @@
       <div class="savings-card" id="savingsBody"></div>
     </section>
 
+    <section class="verify" id="verify"></section>
+
     <p class="note">
       El ahorro que ves ya tiene en cuenta el <b>tope</b> de cada promo, así que es lo que realmente
       ahorrás, no el número teórico. Verificamos las promos para La&nbsp;Plata, pero los bancos y
@@ -96,6 +96,8 @@
 
   </main>
 
+  <!-- La app está modularizada en /js (ver js/main.js). Los módulos ES se
+       cargan con type="module": funciona en Live Server y en GitHub Pages. -->
   <script type="module" src="js/main.js"></script>
 
   <!-- PWA: registra el service worker (solo en http/https; en file:// no aplica). -->

@@ -31,11 +31,32 @@ export const SAVINGS_PAGE_SIZE = 6;
 //  3) La parte antes del "?" es "base"; el "entry.XXXX" del campo es "entryPromo".
 // Mientras diga FORM_ID, el botón de reportar no aparece (queda desactivado).
 export const FEEDBACK_FORM = {
-  base:       "https://docs.google.com/forms/d/e/1FAIpQLSctPMgSHo-qb2VZi2Nzxp1PfVIGtUsrZ_SyuuTCmKfRgZcHHA/viewform",
-  entryPromo: "entry.1100962196"
+  base:       "https://docs.google.com/forms/d/e/FORM_ID/viewform",
+  entryPromo: "entry.000000"
 };
 
-// Medios de pago que el usuario puede elegir aunque hoy no tengan promo.
+// Links a las páginas oficiales de promos de cada cadena, para que el usuario
+// pueda verificar en la fuente. La clave se compara SIN distinguir mayúsculas
+// ni acentos, así "Día" / "DIA" / "Dia" matchean igual. Si una cadena no está
+// acá, el link simplemente no aparece (nada de links rotos).
+export const LINKS_CADENA = {
+  "Carrefour": "https://www.carrefour.com.ar/descuentos-bancarios?filtro=entidad&formato=market",
+  "Día":       "https://diaonline.supermercadosdia.com.ar/medios-de-pago-y-promociones",
+  "NINI":      "https://www.nini.com.ar/promociones",
+  "ChangoMás": "https://www.masonline.com.ar/promociones-bancarias",
+  "Coto":      "https://www.coto.com.ar/descuentos"
+};
+
+function _norm(s) {
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+}
+const _LINKS_NORM = Object.fromEntries(
+  Object.entries(LINKS_CADENA).map(([k, v]) => [_norm(k), v])
+);
+// Devuelve el link oficial de la cadena, o null si no está configurada.
+export function linkCadena(cadena) {
+  return _LINKS_NORM[_norm(cadena)] || null;
+}
 // Nivel banco/billetera. "nombre" debe coincidir EXACTO con medio_pago de las promos.
 // "visible": ponelo en false para ocultar el medio de los chips sin borrarlo,
 // y en true para volver a mostrarlo. Un medio oculto no aparece aunque tenga promos.

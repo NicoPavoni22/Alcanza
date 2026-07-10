@@ -5,7 +5,7 @@
 
 import { S, persistSetup } from "./state.js";
 import { parseAmount } from "./format.js";
-import { renderHero, renderAdvice, renderWeek, renderDetail } from "./ui/render.js";
+import { renderHero, renderAdvice, renderWeek, renderDetail, renderVerify } from "./ui/render.js";
 import { boot } from "./data.js";
 import { initTheme } from "./ui/theme.js";
 import { initTour } from "./ui/tour.js";
@@ -23,5 +23,6 @@ amountInput.addEventListener("input", e => {
 
 initTheme();
 initTooltips();
+renderVerify();
 initTour();
 boot();
