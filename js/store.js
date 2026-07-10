@@ -8,6 +8,7 @@ export const K_SETUP   = "alcanza.setup.v1";
 export const K_COMPRAS = "alcanza.compras.v1";
 export const K_THEME   = "alcanza.theme.v1";
 export const K_TOUR    = "alcanza.tour.v1";
+export const K_IOSHINT = "alcanza.ioshint.v1";
 
 export const store = (() => {
   let ok = true;

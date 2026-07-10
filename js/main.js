@@ -10,6 +10,7 @@ import { boot } from "./data.js";
 import { initTheme } from "./ui/theme.js";
 import { initTour } from "./ui/tour.js";
 import { initTooltips } from "./ui/tooltip.js";
+import { initIosHint } from "./ui/ioshint.js";
 
 // Campo de compra estimada
 const amountInput = document.getElementById("amount");
@@ -23,6 +24,7 @@ amountInput.addEventListener("input", e => {
 
 initTheme();
 initTooltips();
+initIosHint();
 renderVerify();
 initTour();
 boot();

@@ -311,3 +311,25 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
 }
 .verify-chip:hover{ border-color:var(--save); }
 .verify-ext{ color:var(--save); font-size:.95em; line-height:1; }
+
+/* Hint de instalación para iOS (aparece abajo, solo en iPhone/iPad) */
+.ios-hint{
+  position:fixed; left:12px; right:12px; bottom:12px; z-index:9000;
+  display:flex; align-items:center; gap:12px;
+  background:var(--card); color:var(--ink);
+  border:1px solid var(--line); border-radius:14px;
+  padding:13px 14px; max-width:520px; margin:0 auto;
+  box-shadow:0 16px 40px -16px rgba(10,11,26,.5);
+  opacity:0; transform:translateY(12px);
+  transition:opacity .22s ease, transform .22s ease;
+}
+.ios-hint.in{ opacity:1; transform:translateY(0); }
+.ios-hint-txt{ flex:1; font-size:13.5px; line-height:1.45; }
+.ios-hint-txt b{ font-weight:600; }
+.ios-hint-txt svg{ color:var(--accent); }
+.ios-hint-x{
+  flex:none; width:28px; height:28px; border:none; border-radius:50%;
+  background:var(--bg); color:var(--muted);
+  font-size:13px; cursor:pointer; line-height:1;
+}
+.ios-hint-x:hover{ color:var(--ink); }
