@@ -1,7 +1,7 @@
 {
   "name": "Alcanza — el mejor precio del súper",
   "short_name": "Alcanza",
-  "description": "Descuentos bancarios y de billeteras en supermercados de La Plata. Mirá dónde y qué día conviene comprar hoy.",
+  "description": "Que la plata te alcance. Descuentos bancarios y de billeteras en supermercados de La Plata: mirá dónde y qué día conviene comprar hoy.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

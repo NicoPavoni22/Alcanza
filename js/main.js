@@ -33,7 +33,7 @@ const splashStart = Date.now();
 function hideSplash() {
   const s = document.getElementById("splash");
   if (!s) return;
-  const espera = Math.max(0, 1000 - (Date.now() - splashStart)); // que se vea la animación
+  const espera = Math.max(0, 1600 - (Date.now() - splashStart)); // que se vea la animación + slogan
   setTimeout(() => { s.classList.add("gone"); setTimeout(() => s.remove(), 500); }, espera);
 }
 boot().finally(hideSplash);
