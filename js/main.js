@@ -27,4 +27,14 @@ initTooltips();
 initIosHint();
 renderVerify();
 initTour();
-boot();
+
+// Splash animado: se muestra al abrir y se funde cuando la app está lista.
+const splashStart = Date.now();
+function hideSplash() {
+  const s = document.getElementById("splash");
+  if (!s) return;
+  const espera = Math.max(0, 1000 - (Date.now() - splashStart)); // que se vea la animación
+  setTimeout(() => { s.classList.add("gone"); setTimeout(() => s.remove(), 500); }, espera);
+}
+boot().finally(hideSplash);
+setTimeout(hideSplash, 4000);   // red de seguridad si algo tarda o falla
