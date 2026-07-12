@@ -6,15 +6,17 @@
 // =======================================================================
 
 import { S, persistSetup, persistCompras } from "../state.js";
-import { DIAS, DIAS3, HOY, HOY_ISO, DIAS_PARA_ALERTAR, reduce, SAVINGS_PAGE_SIZE, LINKS_CADENA } from "../config.js";
+import { DIAS, DIAS3, HOY, HOY_ISO, DIAS_PARA_ALERTAR, reduce, SAVINGS_PAGE_SIZE, LINKS_CADENA, SUCURSALES, sucursalesDe, mapaDireccion } from "../config.js";
 import { fmt, cap } from "../format.js";
 import { promosDelDia, ganadorDelDia, mejorDeLaSemana } from "../promos.js";
 import { tweenPesos } from "./tween.js";
 import { showToast } from "./toast.js";
 import { confirmModal } from "./modal.js";
-import { compartir } from "./share.js";
 import { linkFeedback } from "./feedback.js";
 import { infoBtn } from "./tooltip.js";
+
+// Iconito de pin, reutilizable para la sección "¿Dónde quedan?".
+const PIN = `<svg class="pin" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.3" fill="currentColor"/></svg>`;
 
 let savingsPage = 1;
 
@@ -27,8 +29,7 @@ export function renderStamp() {
   else { box.className = "stamp"; box.innerHTML = `Promos verificadas el ${fecha} · La Plata` + infoFrescura; }
 }
 
-// Sección al pie: verificar las promos en las webs oficiales. Es estática
-// (sale de LINKS_CADENA), así que se pinta una sola vez al arrancar.
+// Sección al pie: verificar en las webs oficiales (estática, LINKS_CADENA).
 export function renderVerify() {
   const box = document.getElementById("verify");
   if (!box) return;
@@ -43,6 +44,53 @@ export function renderVerify() {
     <div class="verify-chips">${chips}</div>`;
 }
 
+// Sección al pie: dónde queda cada súper. Acordeón — cada cadena despliega sus
+// sucursales, y cada dirección abre Google Maps en el punto exacto. Estática.
+export function renderLocations() {
+  const box = document.getElementById("locations");
+  if (!box) return;
+  const chains = Object.keys(SUCURSALES);
+  if (!chains.length) { box.innerHTML = ""; return; }
+  const items = chains.map((c, idx) => {
+    const dirs = SUCURSALES[c];
+    const pid = `suc-panel-${idx}`;
+    const count = dirs.length === 1 ? "1 sucursal" : `${dirs.length} sucursales`;
+    const branches = dirs.map(d =>
+      `<a class="suc-branch" href="${mapaDireccion(c, d)}" target="_blank" rel="noopener">${PIN}<span>${d}</span></a>`
+    ).join("");
+    return `<div class="suc-item">
+      <button class="suc-head" type="button" aria-expanded="false" aria-controls="${pid}" data-cadena="${c}">
+        <span class="suc-chain">${c}</span>
+        <span class="suc-right"><span class="suc-count">${count}</span><span class="suc-chev">›</span></span>
+      </button>
+      <div class="suc-panel" id="${pid}" hidden>${branches}</div>
+    </div>`;
+  }).join("");
+  box.innerHTML = `
+    <p class="eyebrow">¿Dónde quedan?</p>
+    <p class="verify-text">Tocá una cadena para ver sus sucursales en La Plata.</p>
+    <div class="suc-list">${items}</div>`;
+  box.querySelectorAll(".suc-head").forEach(h => h.addEventListener("click", () => toggleSuc(h)));
+}
+
+function toggleSuc(h) {
+  const abierto = h.getAttribute("aria-expanded") === "true";
+  h.setAttribute("aria-expanded", abierto ? "false" : "true");
+  const panel = document.getElementById(h.getAttribute("aria-controls"));
+  if (panel) panel.hidden = abierto;
+}
+
+// Abre (y hace scroll a) la lista de sucursales de una cadena. La usa el botón
+// "Cómo llegar" del veredicto.
+export function openSucursales(cadena) {
+  const box = document.getElementById("locations");
+  if (!box) return;
+  const h = [...box.querySelectorAll(".suc-head")].find(x => x.dataset.cadena === cadena);
+  if (!h) return;
+  if (h.getAttribute("aria-expanded") !== "true") toggleSuc(h);
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function renderHero() {
   const hero = document.getElementById("hero");
   const label = `${S.selectedDay === HOY ? '<span class="now">hoy</span> · ' : ''}${DIAS[S.selectedDay]}`;
@@ -55,6 +103,7 @@ export function renderHero() {
   // Reporte atado al veredicto: la promo que "te informamos".
   const ctxHero = `${g.cadena} · ${g.medioPago} · ${DIAS[S.selectedDay]} · ${g.porcentaje}%`;
   const repHero = linkFeedback(ctxHero);
+  const sucHero = sucursalesDe(g.cadena);
   hero.innerHTML = `
     <div class="tag-day">${label}</div>
     <div class="tag-chain">${g.cadena}</div>
@@ -66,25 +115,17 @@ export function renderHero() {
     ${g.condicion ? `<div class="cond-badge">⚠ ${g.condicion}</div>` : ""}
     <div class="tag-actions">
       ${btn}
-      <button class="tag-share" id="shareBtn" type="button" aria-label="Compartir esta promo">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-        Compartir
-      </button>
+      ${sucHero ? `<button class="tag-share" id="heroMapBtn" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4" fill="currentColor" stroke="none"/></svg>
+        Cómo llegar
+      </button>` : ""}
     </div>
     ${repHero ? `<a class="hero-report report-link" href="${repHero}" target="_blank" rel="noopener">¿No ahorraste esto? Reportá la promo</a>` : ""}`;
   tweenPesos(document.getElementById("heroSave"), g.pesos);
   const lb = document.getElementById("logBtn");
   if (lb) lb.onclick = () => registrarCompra(g);
-  const sb = document.getElementById("shareBtn");
-  if (sb) sb.onclick = () => {
-    const dayWord = S.selectedDay === HOY ? "Hoy" : DIAS[S.selectedDay];
-    const topeTxt = g.topeAlcanzado ? ` (tope ${fmt(g.tope)})` : "";
-    compartir({
-      title: "Alcanza",
-      text: `${dayWord} conviene comprar en ${g.cadena} con ${g.medioPago}: ${g.porcentaje}% de descuento${topeTxt}. Lo vi en Alcanza 👇`,
-      url: location.origin + location.pathname
-    });
-  };
+  const mb = document.getElementById("heroMapBtn");
+  if (mb && sucHero) mb.onclick = () => openSucursales(sucHero.nombre);
 }
 
 export function renderAdvice() {

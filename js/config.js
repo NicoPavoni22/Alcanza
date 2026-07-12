@@ -45,7 +45,6 @@ export const LINKS_CADENA = {
   "NINI":      "https://www.nini.com.ar/promociones",
   "ChangoMás": "https://www.masonline.com.ar/promociones-bancarias",
   "Coto":      "https://www.coto.com.ar/descuentos",
-  "Jumbo":     "https://www.jumbo.com.ar/descuentos-del-dia?type=por-banco",
   "Vea":       "https://www.vea.com.ar/descuentos-del-dia?type=por-banco"
 };
 
@@ -58,6 +57,52 @@ const _LINKS_NORM = Object.fromEntries(
 // Devuelve el link oficial de la cadena, o null si no está configurada.
 export function linkCadena(cadena) {
   return _LINKS_NORM[_norm(cadena)] || null;
+}
+
+
+// Sucursales reales en La Plata por cadena (solo la dirección). El orden es el
+// que se muestra. Para sumar/editar, tocá acá nada más.
+export const SUCURSALES = {
+  "Carrefour": [
+    "Cno. Gral. Belgrano e/ 514 y 517",
+    "Calle 12 e/ 56 y 57",
+    "Calle 7 e/ 47 y 48"
+  ],
+  "Coto": [
+    "Calle 43 e/ 10 y 11 Nº 782"
+  ],
+  "ChangoMás": [
+    "Cam. Parque Centenario 1876, Gonnet"
+  ],
+  "Día": [
+    "Calle 56 Nº 1029"
+  ],
+  "NINI": [
+    "Av. 520 Nº 2800, Gonnet"
+  ],
+  "Vea": [
+    "Av. 13 e/ 71 y 72 Nº 1936",
+    "Calle 45 e/ 2 y 3 Nº 377",
+    "Calle 47 esq. 11",
+    "Calle 525 e/ 8 y 9"
+  ]
+};
+
+const _SUC_NORM = Object.fromEntries(
+  Object.entries(SUCURSALES).map(([k, v]) => [_norm(k), { nombre: k, dirs: v }])
+);
+// Devuelve { nombre, dirs } de la cadena, o null si no tiene sucursales cargadas.
+export function sucursalesDe(cadena) {
+  return _SUC_NORM[_norm(cadena)] || null;
+}
+
+// Link a Google Maps para una dirección puntual. Incluye el nombre de la cadena
+// para que el mapa caiga en el local exacto, y completa la localidad.
+export function mapaDireccion(cadena, dir) {
+  let q = `${cadena} ${dir}`;
+  if (!/plata|gonnet/i.test(q)) q += ", La Plata";
+  q += ", Buenos Aires, Argentina";
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }
 // Nivel banco/billetera. "nombre" debe coincidir EXACTO con medio_pago de las promos.
 // "visible": ponelo en false para ocultar el medio de los chips sin borrarlo,

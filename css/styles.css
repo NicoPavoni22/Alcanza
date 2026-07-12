@@ -8,12 +8,12 @@
   color-scheme:light;
 }
 :root[data-theme="dark"]{
-  --bg:#0E0F16;   --card:#1B1E2E;
-  --ink:#F3F4F8;  --muted:#A2A8C0;  --line:#31354C;
-  --hero:#1C2256;  --accent:#7183FF;
+  --bg:#14173A;   --card:#20254E;
+  --ink:#EDEFFA;  --muted:#9AA0C7;  --line:#2E3466;
+  --hero:#2A2F66;  --accent:#7183FF;
   --save:#33C78C;  --save-lt:#45E7AA;
   --danger:#F0555A;
-  --field-border:#3C4162;
+  --field-border:#3C4270;
   color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -245,7 +245,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
 /* --- Acciones del hero: "Compré acá" + "Compartir" --- */
 .tag-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
 .tag-actions .tag-btn{margin-top:0}
-.tag-share{display:inline-flex;align-items:center;gap:7px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);border-radius:10px;padding:10px 15px;font-family:'Inter Tight',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:background .14s,border-color .14s;position:relative;z-index:1}
+.tag-share{text-decoration:none;display:inline-flex;align-items:center;gap:7px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);border-radius:10px;padding:10px 15px;font-family:'Inter Tight',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:background .14s,border-color .14s;position:relative;z-index:1}
 .tag-share:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.6)}
 .tag-share:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .tag-share svg{opacity:.92}
@@ -346,3 +346,38 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
   border:1px solid rgba(245,158,11,.35);
 }
 [data-theme="dark"] .flag-cond{ color:#F59E0B; }
+
+
+/* Pin dentro de los chips de "¿Dónde quedan?" */
+#locations .verify-ext{ display:inline-flex; align-items:center; }
+#locations .verify-ext .pin{ display:block; }
+
+/* Botón de compartir en el header (mismo look que tema y ?) */
+.icon-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.14s;flex:0 0 auto}
+.icon-btn svg{width:14px;height:14px}
+.icon-btn:hover{border-color:var(--accent);color:var(--ink)}
+.icon-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Acordeón de sucursales en "¿Dónde quedan?" */
+.suc-item{ border-top:1px solid var(--line); }
+.suc-item:last-child{ border-bottom:1px solid var(--line); }
+.suc-head{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:none; border:0; padding:13px 0; cursor:pointer; text-align:left;
+  color:var(--ink); font:600 14.5px "Inter",system-ui,sans-serif;
+}
+.suc-right{ display:inline-flex; align-items:center; gap:9px; color:var(--muted); font-size:12px; font-weight:500; }
+.suc-chev{ display:inline-block; transition:transform .18s ease; font-size:15px; }
+.suc-head[aria-expanded="true"] .suc-count{ color:var(--save); }
+.suc-head[aria-expanded="true"] .suc-chev{ transform:rotate(90deg); color:var(--save); }
+.suc-panel{ padding:2px 0 10px; }
+.suc-panel[hidden]{ display:none; }
+.suc-branch{
+  display:flex; align-items:flex-start; gap:9px; text-decoration:none;
+  padding:10px 12px; border-radius:10px; margin-bottom:7px;
+  background:var(--card); border:1px solid var(--line);
+  color:var(--ink); font-size:13.5px; font-weight:500; line-height:1.4;
+}
+.suc-branch:last-child{ margin-bottom:0; }
+.suc-branch:hover{ border-color:var(--save); }
+.suc-branch .pin{ color:var(--save); margin-top:1px; flex:none; }
