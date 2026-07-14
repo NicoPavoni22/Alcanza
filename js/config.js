@@ -75,7 +75,13 @@ export const SUCURSALES = {
     "Cam. Parque Centenario 1876, Gonnet"
   ],
   "Día": [
-    "Calle 56 Nº 1029"
+    "Av. 44 e/ 6 y Pza Italia Nº 561",
+    "Calle 48 e/ 13 y 14 Nº 944",
+    "Calle 56 Nº 1029",
+    "Calle 12 Nº 1514",
+    "Av. 122 Nº 365",
+    "Av. 7 e/ 58 y 59 Nº 1286",
+    "Av. 7 e/ 40 y 41 Nº 423"
   ],
   "NINI": [
     "Av. 520 Nº 2800, Gonnet"
@@ -116,7 +122,7 @@ export const MEDIOS_MASTER = [
   { nombre: "Santander",    visible: true },
   { nombre: "Macro",        visible: true },
   { nombre: "Nación",       visible: true },
-  { nombre: "Patagonia",    visible: true },
+  { nombre: "Patagonia",    visible: false },
   { nombre: "Supervielle",  visible: true },
   { nombre: "Naranja X",    visible: true },
   { nombre: "Columbia",     visible: true },

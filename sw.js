@@ -9,7 +9,7 @@
 // caché viejo.
 // =======================================================================
 
-const VERSION = "alcanza-v18";
+const VERSION = "alcanza-v19";
 
 const SHELL = [
   "./",
