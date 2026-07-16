@@ -7,7 +7,6 @@ import { S, persistSetup } from "./state.js";
 import { parseAmount } from "./format.js";
 import { renderHero, renderAdvice, renderWeek, renderDetail, renderVerify, renderLocations } from "./ui/render.js";
 import { boot } from "./data.js";
-import { initTheme } from "./ui/theme.js";
 import { initTour } from "./ui/tour.js";
 import { initTooltips } from "./ui/tooltip.js";
 import { initIosHint } from "./ui/ioshint.js";
@@ -31,7 +30,6 @@ if (shareApp) shareApp.onclick = () => compartir({
   url: location.origin + location.pathname
 });
 
-initTheme();
 initTooltips();
 initIosHint();
 renderVerify();

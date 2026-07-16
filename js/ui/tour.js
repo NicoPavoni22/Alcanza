@@ -52,8 +52,9 @@ function tourPlace(target, onReady) {
     return;
   }
   tourTip.classList.remove("center");
-  const doPlace = () => {
+  const place = (permitirScroll) => {
     const r = target.getBoundingClientRect();
+    const vh = window.innerHeight;
     tourSpotlight.style.display = "block";
     tourSpotlight.style.top = (r.top - 8) + "px";
     tourSpotlight.style.left = (r.left - 8) + "px";
@@ -61,17 +62,32 @@ function tourPlace(target, onReady) {
     tourSpotlight.style.height = (r.height + 16) + "px";
 
     const tw = tourTip.offsetWidth, th = tourTip.offsetHeight;
-    let top = r.bottom + margin;
-    if (top + th > window.innerHeight - 16) top = r.top - th - margin;
-    if (top < 16) top = Math.max(16, Math.min(window.innerHeight - th - 16, r.top));
+    const entraAbajo = r.bottom + margin + th <= vh - 16;
+    const entraArriba = r.top - margin - th >= 16;
+    let top;
+    if (entraAbajo) {
+      top = r.bottom + margin;
+    } else if (entraArriba) {
+      top = r.top - th - margin;
+    } else if (permitirScroll) {
+      // No entra ni arriba ni abajo (target alto y centrado): lo subo hacia el
+      // tope de la pantalla y reintento, así el globo entra debajo sin taparlo.
+      const subir = Math.max(0, r.top - 16);
+      window.scrollBy({ top: subir, behavior: "auto" });
+      requestAnimationFrame(() => place(false));
+      return;
+    } else {
+      // Último recurso: pego el globo abajo de todo.
+      top = Math.max(16, vh - th - 16);
+    }
     const left = Math.max(16, Math.min(r.left, window.innerWidth - tw - 16));
     tourTip.style.top = top + "px";
     tourTip.style.left = left + "px";
     onReady();
   };
   target.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
-  tourReposition = doPlace;
-  setTimeout(doPlace, reduce ? 0 : 320);
+  tourReposition = () => place(false);
+  setTimeout(() => place(true), reduce ? 0 : 320);
 }
 
 function tourRender() {

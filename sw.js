@@ -5,11 +5,11 @@
 // - Datos de Supabase: network-first con fallback a caché, así offline se
 //   ven las últimas promos que se cargaron.
 // - Fuentes de Google: cacheadas en runtime.
-// Al publicar cambios importantes, subí VERSION para forzar la limpieza del
+// Despues de subir cambios, subir version para forzar la limpieza del
 // caché viejo.
 // =======================================================================
 
-const VERSION = "alcanza-v19";
+const VERSION = "alcanza-v20";
 
 const SHELL = [
   "./",
